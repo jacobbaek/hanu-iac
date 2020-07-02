@@ -1,0 +1,7 @@
+- name: install packages
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - epel-release
+    - elrepo-release
