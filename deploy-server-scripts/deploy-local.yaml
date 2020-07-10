@@ -1,0 +1,53 @@
+---
+- name: Packages installation and configuration in deploy server
+  hosts: local
+  gather_facts: no
+  become: yes
+
+  tasks:
+    - name: install chrony package
+      yum:
+        name: chrony
+        state: latest
+
+    - name: chrony 
+      copy:
+        src: files/chrony-server.conf
+        dest: /etc/chrony.conf
+      notify: restart chronyd service
+
+    - name: disable selinux
+      selinux:
+        policy: targeted
+        state: permissive
+
+    - name: install docker
+      yum:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - yum-utils
+        - device-mapper-persistent-data
+        - lvm2
+
+    - name: start docker service
+      systemd:
+        name: docker
+        state: started  
+
+    - name: download docker-compose
+      copy:
+        src: "https://github.com/docker/compose/releases/download/1.25.0/docker-compose-$(uname -s)-$(uname -m)"
+        dest: /usr/local/bin/docker-compose
+
+    - name: install virtualenv
+      yum:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - python3-pip
+        - python-virtualenv
+
+  handlers:
+    - name: restart chronyd service
+      service: name=chronyd state=restarted

@@ -1,0 +1,20 @@
+---
+- name: ceph tunning
+  hosts: ceph
+  gather_facts: no
+
+  tasks:
+    - name: make a directory for ceph-tuned
+      become: yes
+      file:
+        path: /usr/lib/tuned/ceph-tuned/
+        state: directory
+    
+    - name: implementing for ceph-tuned
+      become: yes
+      copy:
+        src: files/tuned.conf
+        dest: /usr/lib/tuned/ceph-tuned/tuned.conf
+     
+    - name: change tuned
+      command: 'tuned-adm profile ceph-tuned'

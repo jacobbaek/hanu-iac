@@ -1,0 +1,49 @@
+---
+- name: Do common action 
+  hosts: all
+  become: yes
+  
+  tasks:
+    - name: copy the hp cli
+      copy: 
+        src: files/ssacli-3.40-3.0.x86_64.rpm
+        dest: /tmp/ssacli.rpm
+    - name: install the package
+      yum:
+        name: /tmp/ssacli.rpm
+        state: present
+    - name: disable selinux
+      selinux:
+        policy: targeted
+        state: permissive
+    - name: copy the hosts file
+      become: yes
+      copy:
+        src: files/hosts
+        dest: /etc/hosts
+    - name: configure name servers
+      blockinfile:
+        path: /etc/resolv.conf
+        block: |
+          nameserver 8.8.8.8
+          nameserver 1.1.1.1
+
+    - name: install package ntp(chrony)
+      yum:
+        name: chrony
+        state: latest
+      notify: restart chrony service
+
+    - name: restart chrony service
+      systemd:
+        name: chronyd
+        state: restarted
+    
+    - name: copy the chrony.conf file
+      copy: 
+        src: files/chrony.conf
+        dest: /etc/chrony.conf
+
+  handlers:
+    - name: restart chronyd service
+      service: name=chronyd state=restarted

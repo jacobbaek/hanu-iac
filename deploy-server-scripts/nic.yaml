@@ -1,0 +1,29 @@
+---
+- name: Nic Setting
+  become: true
+  hosts: osc-openstack
+  tasks:
+  - name: create ifcfg config file
+    template:
+      src:  "./template/ifcfg-{{ item }}.j2"
+      dest: "/etc/sysconfig/network-scripts/ifcfg-{{ item }}"
+    with_items:
+      - "bond0.10"
+      - "bond0.20"
+      - "bond0.30"
+      - "bond0.40"
+      - "bond0.50"
+      - "bond0.110"
+      - "bond0"
+
+  - name: add default gateway
+    lineinfile:
+      path: /etc/sysconfig/network
+      insertafter: EOF
+      line: GATEWAY=172.16.0.1
+    notify: restart network
+
+
+  handlers:
+  - name: restart network
+    service: name=network  state=restarted

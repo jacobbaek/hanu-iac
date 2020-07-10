@@ -1,0 +1,15 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+10.10.10.2	deploy001
+10.10.10.11	master001
+10.10.10.12	master002
+10.10.10.13	master003
+10.10.10.21	worker001
+10.10.10.22	worker002
+10.10.10.23	worker003
+10.10.10.51	ceph001
+10.10.10.52	ceph002
+10.10.10.53	ceph003
+10.10.10.54	ceph004
+
