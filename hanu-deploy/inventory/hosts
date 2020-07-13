@@ -11,6 +11,20 @@ ceph002 IP_VAR='52'
 ceph003 IP_VAR='53'
 ceph004 IP_VAR='54'
 
+[master]
+master001
+master002
+master003
+
+[worker]
+worker001
+worker002
+worker003
+
+[openstack:children]
+master
+worker
+
 [ceph]
 ceph002
 ceph003

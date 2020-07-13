@@ -4,6 +4,11 @@
   become: yes
   
   tasks:
+    - name: update latest
+      yum:
+        name: *
+        state: latest
+
     - name: copy the hp cli
       copy: 
         src: files/ssacli-3.40-3.0.x86_64.rpm
@@ -43,6 +48,17 @@
       copy: 
         src: files/chrony.conf
         dest: /etc/chrony.conf
+
+    - name: untar iptables-1.6.tar that is in deploy server
+      unarchive:
+        src: files/iptables-1.6.tar
+        dest: /usr/local/sbin
+    
+    - name: copy the libxtables.so.12 into /lib64
+      become: yes
+      copy:
+        src: files/libxtables.so.12
+        dest: /lib64/libxtables.so.12
 
   handlers:
     - name: restart chronyd service
