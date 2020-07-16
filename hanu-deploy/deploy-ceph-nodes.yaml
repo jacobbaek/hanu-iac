@@ -16,5 +16,6 @@
         src: files/tuned.conf
         dest: /usr/lib/tuned/ceph-tuned/tuned.conf
      
+    # the result that run below command doesn't affect
     - name: change tuned
       command: 'tuned-adm profile ceph-tuned'

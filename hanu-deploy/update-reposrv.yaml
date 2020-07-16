@@ -1,0 +1,22 @@
+---
+- name: Update using local repository every node
+  hosts: all
+  gather_facts: no
+  become: yes
+  vars:
+    reposrv: deploy001
+
+  tasks:
+    - name: makes repos that is used nexus repository
+      template:
+        src: template/nexus-repo.repo.j2
+        dest: "/etc/yum.repos.d/{{ item }}.repo"
+      loop:
+        - "docker-ce"
+        - "base"
+        - "updates"
+        - "extras"
+        - "epel"
+        - "openstack"
+        - "ceph-nautilus"
+        - "kubernetes"

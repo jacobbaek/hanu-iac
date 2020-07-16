@@ -6,26 +6,30 @@
   tasks:
     - name: update latest
       yum:
-        name: *
+        name: "*"
         state: latest
 
     - name: copy the hp cli
       copy: 
         src: files/ssacli-3.40-3.0.x86_64.rpm
         dest: /tmp/ssacli.rpm
+
     - name: install the package
       yum:
         name: /tmp/ssacli.rpm
         state: present
+
     - name: disable selinux
       selinux:
         policy: targeted
         state: permissive
+
     - name: copy the hosts file
       become: yes
       copy:
         src: files/hosts
         dest: /etc/hosts
+
     - name: configure name servers
       blockinfile:
         path: /etc/resolv.conf
@@ -49,16 +53,17 @@
         src: files/chrony.conf
         dest: /etc/chrony.conf
 
-    - name: untar iptables-1.6.tar that is in deploy server
-      unarchive:
-        src: files/iptables-1.6.tar
-        dest: /usr/local/sbin
-    
-    - name: copy the libxtables.so.12 into /lib64
-      become: yes
-      copy:
-        src: files/libxtables.so.12
-        dest: /lib64/libxtables.so.12
+## if copied iptables-1.6.2 into each servers before deploy kubernetes, it will fail to start docker daemon. so those line commented
+#    - name: untar iptables-1.6.tar that is in deploy server
+#      unarchive:
+#        src: files/iptables-1.6.tar
+#        dest: /usr/local/sbin
+#    
+#    - name: copy the libxtables.so.12 into /lib64
+#      become: yes
+#      copy:
+#        src: files/libxtables.so.12
+#        dest: /lib64/libxtables.so.12
 
   handlers:
     - name: restart chronyd service

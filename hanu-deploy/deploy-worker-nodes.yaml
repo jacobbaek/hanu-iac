@@ -1,0 +1,11 @@
+---
+- name: deploy worker nodes
+  hosts: worker
+  gather_facts: no
+
+  tasks:
+    # the result that run below command doesn't affect
+    - name: change tuned
+      command: 'tuned-adm profile virtual-host'
+    
+

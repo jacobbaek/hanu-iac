@@ -12,4 +12,3 @@
         ssacli ctrl slot=0 create type=ld drives=2I:1:6 raid=0
         ssacli ctrl slot=0 create type=ld drives=2I:1:7 raid=0
         ssacli ctrl slot=0 create type=ld drives=2I:1:8 raid=0
-        

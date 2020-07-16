@@ -23,7 +23,6 @@
       line: GATEWAY=172.16.0.1
     notify: restart network
 
-
   handlers:
   - name: restart network
     service: name=network  state=restarted

@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  nexus:
+    user: root
+    privileged: true
+    image: sonatype/nexus3
+    volumes:
+      - "/data/nexus-data:/nexus-data"
+    ports:
+      - "8081:8081"
+      - "5000:5000"
+  
+volumes:
+  nexus-data: {}

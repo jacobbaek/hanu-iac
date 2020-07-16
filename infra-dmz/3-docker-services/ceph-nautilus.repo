@@ -1,0 +1,5 @@
+[ceph-nautilus]
+name=ceph-nautilus
+enabled=1
+gpgcheck=0
+baseurl =http://deploy001:8081/repository/ceph-nautilus/
