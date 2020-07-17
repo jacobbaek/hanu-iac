@@ -4,6 +4,14 @@
   become: yes
   
   tasks:
+    - name: add nameserver
+      lineinfile:
+        path: /etc/resolv.conf
+        insertafter: EOF
+        line: |
+          nameserver 8.8.8.8
+          nameserver 1.1.1.1
+
     - name: update latest
       yum:
         name: "*"
@@ -41,13 +49,13 @@
       yum:
         name: chrony
         state: latest
-      notify: restart chrony service
+      notify: restart chronyd service
 
-    - name: restart chrony service
-      systemd:
-        name: chronyd
-        state: restarted
-    
+#    - name: restart chronyd service
+#      systemd:
+#        name: chronyd
+#        state: restarted
+#    
     - name: copy the chrony.conf file
       copy: 
         src: files/chrony.conf

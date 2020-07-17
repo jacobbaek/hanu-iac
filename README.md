@@ -4,8 +4,10 @@
 * hanu-deploy
   * automate to ready hanu deploy server
 * infra-k8s
-  * kubespray
+  * 1-terraform-libvirt
+  * 2-kubespray
+  * 3-helm-charts
 * infra-dmz
-  * pfsense(not yet)
-  * wireguard
- 
+  * 1-terraform-libvirt
+  * 2-wireguard
+  * 3-pfsense(not yet)

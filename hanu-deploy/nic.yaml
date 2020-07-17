@@ -1,7 +1,7 @@
 ---
 - name: Nic Setting
   become: true
-  hosts: osc-openstack
+  hosts: all
   tasks:
   - name: create ifcfg config file
     template:
@@ -14,13 +14,13 @@
       - "bond0.40"
       - "bond0.50"
       - "bond0.110"
-      - "bond0"
+      - "bond0.100"
 
   - name: add default gateway
     lineinfile:
       path: /etc/sysconfig/network
       insertafter: EOF
-      line: GATEWAY=172.16.0.1
+      line: GATEWAY=10.10.10.252
     notify: restart network
 
   handlers:

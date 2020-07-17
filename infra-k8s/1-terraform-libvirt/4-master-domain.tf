@@ -1,6 +1,6 @@
 resource "libvirt_cloudinit_disk" "master-cloudinit" {
   count = length(var.master)
-  pool = var.image_pool
+  pool = var.base_pool
 
   name = format("%s-cloudinit.iso", element(var.master, count.index))
   user_data = data.template_file.master_user_data[count.index].rendered

@@ -21,10 +21,15 @@ variable "base_pool" {
   default = "default"
 }
 
+variable "cloudinit_pool" {
+  default = "kvmiamges"
+}
+
 variable "image_pool" {
-  default = "kvmimages"
+  default = "ceph-pool"
 }
 
 variable "image_source" {
-  default = "CentOS7.qcow2"
+  #default = "CentOS7.qcow2"
+  default = "CentOS7.raw"
 }

@@ -1,12 +1,12 @@
 
-[osc-openstack]
+[all]
 master001 IP_VAR='11'
 master002 IP_VAR='12'
 master003 IP_VAR='13'
 worker001 IP_VAR='21'
 worker002 IP_VAR='22'
 worker003 IP_VAR='23'
-#ceph001 IP_VAR='51'
+ceph001 IP_VAR='51'
 ceph002 IP_VAR='52'
 ceph003 IP_VAR='53'
 ceph004 IP_VAR='54'
@@ -26,6 +26,7 @@ master
 worker
 
 [ceph]
+ceph001
 ceph002
 ceph003
 ceph004
