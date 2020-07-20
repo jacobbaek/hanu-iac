@@ -17,16 +17,18 @@ variable "worker_memory" { default = 32768 }
 variable "worker_vcpu" { default = 8 }
 
 # common variables
-variable "base_pool" {
+variable "image_pool" {
   default = "default"
 }
 
 variable "cloudinit_pool" {
-  default = "kvmiamges"
+  default = "kvmimages"
 }
 
-variable "image_pool" {
-  default = "ceph-pool"
+# History for ceph integration. At the moment, ceph doesn't use as libvirt backend storage.
+variable "disk_pool" {
+  #default = "ceph-pool"
+  default = "kvmimages"
 }
 
 variable "image_source" {

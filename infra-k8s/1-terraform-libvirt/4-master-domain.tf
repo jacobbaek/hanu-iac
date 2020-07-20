@@ -1,6 +1,6 @@
 resource "libvirt_cloudinit_disk" "master-cloudinit" {
   count = length(var.master)
-  pool = var.base_pool
+  pool = var.cloudinit_pool
 
   name = format("%s-cloudinit.iso", element(var.master, count.index))
   user_data = data.template_file.master_user_data[count.index].rendered
@@ -29,10 +29,17 @@ resource "libvirt_domain" "master-instances" {
     autoport = true
   }
   
-  # deploy network
+  # deploy network (access_ip)
   network_interface {
     network_id = libvirt_network.deploy.id
     addresses = ["100.100.100.7${count.index+1}"]
+    wait_for_lease = false
+  }
+
+  # external network (ip)
+  network_interface {
+    bridge = "br0.110"
+    addresses = ["172.16.0.7${count.index+1}"]
     wait_for_lease = false
   }
 }

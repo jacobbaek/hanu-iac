@@ -1,7 +1,7 @@
 ---
 - name: Nic Setting
   become: true
-  hosts: all
+  hosts: openstack
   tasks:
   - name: create ifcfg config file
     template:
@@ -15,6 +15,7 @@
       - "bond0.50"
       - "bond0.110"
       - "bond0.100"
+      - "br-ex"
 
   - name: add default gateway
     lineinfile:
