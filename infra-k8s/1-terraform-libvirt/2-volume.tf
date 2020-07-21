@@ -22,3 +22,11 @@ resource "libvirt_volume" "worker-osdisk" {
   base_volume_name = var.image_source
 }
 
+resource "libvirt_volume" "deploy-osdisk" {
+  name = format("%s-%s", "osdisk", "deploy")
+  base_volume_pool = var.image_pool
+  pool = var.disk_pool
+  format = "qcow2"
+  base_volume_name = var.image_source
+}
+

@@ -41,3 +41,22 @@ data "template_file" "worker_network_config" {
     ip_number = "8${count.index+1}"
   }
 }
+
+data "template_file" "deploy_user_data" {
+  template = file("${path.module}/templates/cloud_init.cfg")
+}
+
+data "template_file" "deploy_meta_data" {
+  template = file("${path.module}/templates/metadata.yaml")
+  vars = {
+    hostname = var.deploy
+  }
+}
+
+data "template_file" "deploy_network_config" {
+  template = file("${path.module}/templates/deploy_network_config.cfg")
+
+  vars = {
+    ip_number = "5"
+  }
+}

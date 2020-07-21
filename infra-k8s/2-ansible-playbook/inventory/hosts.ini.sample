@@ -1,0 +1,17 @@
+[all]
+infra-master001 access_ip=1.1.1.71 ip=2.2.2.71
+infra-master002 access_ip=1.1.1.72 ip=2.2.2.72
+infra-master003 access_ip=1.1.1.73 ip=2.2.2.73
+infra-worker001 access_ip=1.1.1.81 ip=2.2.2.81
+infra-worker002 access_ip=1.1.1.82 ip=2.2.2.82
+infra-worker003 access_ip=1.1.1.83 ip=2.2.2.83
+
+[infra-master]
+infra-master001
+infra-master002
+infra-master003
+
+[infra-worker]
+infra-worker001
+infra-worker002
+infra-worker003

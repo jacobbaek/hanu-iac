@@ -1,0 +1,32 @@
+---
+- name: common settings for all nodes
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: config nameservers
+      blockinfile:
+        path: /etc/resolv.conf
+        block: |
+          nameserver 1.1.1.1
+
+    - name: install ntp(chrony) service
+      yum:
+        name: chrony
+        state: latest
+      notify: restart chronyd
+
+    - name: update packages
+      yum:
+        name: "*"
+        state: latest
+
+    - name: disable selinux
+      selinux:
+        policy: targeted
+        state: permissive
+
+  handlers:
+    - name: restart chronyd
+      service: name=chronyd state=restarted

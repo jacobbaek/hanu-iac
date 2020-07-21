@@ -16,6 +16,12 @@ variable "worker" {
 variable "worker_memory" { default = 32768 }
 variable "worker_vcpu" { default = 8 }
 
+# per deploy instance
+variable "deploy" { default = "infra-deploy" }
+
+variable "deploy_memory" { default = 8196 }
+variable "deploy_vcpu" { default = 4 }
+
 # common variables
 variable "image_pool" {
   default = "default"

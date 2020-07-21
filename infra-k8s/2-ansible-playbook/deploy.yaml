@@ -1,0 +1,57 @@
+---
+- name: common settings for deploy node
+  hosts: deploy
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: disable selinux
+      selinux:
+        policy: targeted
+        state: permissive
+
+    - name: config nameservers
+      blockinfile:
+        path: /etc/resolv.conf
+        block: |
+          nameserver 1.1.1.1
+
+    - name: update latest packages
+      yum:
+        name: "*"
+        state: latest
+
+    - name: copy the chrony.conf
+      copy:
+        src: files/chrony.conf
+        dest: /etc/chrony.conf
+
+    - name: install ntp(chrony) service
+      yum:
+        name: chrony
+        state: latest
+      notify: restart chronyd
+    
+    - name: install packages to deploy
+      yum:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - git
+        - python3-pip
+        - python-virtualenv
+
+    - name: clone the iac codes
+      git:
+        repo: https://github.com/jacobbaek/hanu-iac.git
+        dest: /root/hanu-iac
+
+    - name: generate ssh-key
+      openssh_keypair:
+        path: /root/.ssh/id_rsa
+        size: 2048
+    
+    - name: copy the host file 
+      copy:
+        src: files/hosts
+        dest: /etc/hosts

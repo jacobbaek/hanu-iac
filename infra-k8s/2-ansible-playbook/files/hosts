@@ -1,0 +1,7 @@
+100.100.100.5 infra-deploy
+100.100.100.71 infra-master001
+100.100.100.72 infra-master002
+100.100.100.73 infra-master003
+100.100.100.81 infra-worker001
+100.100.100.82 infra-worker002
+100.100.100.83 infra-worker003

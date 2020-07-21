@@ -5,5 +5,10 @@ output "master_instances" {
 
 output "worker_instances" {
   description = "print worker instance names"
-  value = libvirt_domain.master-instances.*.name
+  value = libvirt_domain.worker-instances.*.name
+}
+
+output "deploy_instance" {
+  description = "print deploy instance names"
+  value = libvirt_domain.deploy-instance.name
 }
