@@ -1,4 +1,5 @@
 [all]
+infra-deploy access_ip=1.1.1.5 ip=2.2.2.5
 infra-master001 access_ip=1.1.1.71 ip=2.2.2.71
 infra-master002 access_ip=1.1.1.72 ip=2.2.2.72
 infra-master003 access_ip=1.1.1.73 ip=2.2.2.73

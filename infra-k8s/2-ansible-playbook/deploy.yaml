@@ -38,6 +38,7 @@
         state: latest
       loop:
         - git
+        - vim
         - python3-pip
         - python-virtualenv
 
