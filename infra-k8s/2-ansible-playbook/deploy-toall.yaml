@@ -1,0 +1,53 @@
+---
+- name: common settings for deploy node
+  hosts: infra
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: add pubkey into authorized_keys
+      authorized_key:
+        user: root
+        state: present
+        key: "{{ lookup('file', 'files/id_rsa.pub') }}"
+      
+    - name: copy the host file 
+      copy:
+        src: files/hosts
+        dest: /etc/hosts
+
+    - name: disable selinux
+      selinux:
+        policy: targeted
+        state: permissive
+
+    - name: config nameservers
+      blockinfile:
+        path: /etc/resolv.conf
+        block: |
+          nameserver 1.1.1.1
+
+    - name: update latest packages
+      yum:
+        name: "*"
+        state: latest
+
+    - name: comment out ntp servers
+      lineinfile:
+        dest: /etc/chrony.conf
+        regex: "^server "
+        line: "# server "
+        state: present
+
+    - name: add 
+      lineinfile:
+        dest: /etc/chrony.conf
+        insertafter: "# server 3.centos"
+        line: "server infra-deploy iburst"
+        state: present
+
+    - name: install ntp(chrony) service
+      yum:
+        name: chrony
+        state: latest
+      notify: restart chronyd

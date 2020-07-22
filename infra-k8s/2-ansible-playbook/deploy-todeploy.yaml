@@ -1,6 +1,6 @@
 ---
 - name: common settings for deploy node
-  hosts: deploy
+  hosts: infra-deploy
   become: yes
   gather_facts: no
 
@@ -41,6 +41,11 @@
         - python3-pip
         - python-virtualenv
 
+    - name: install pip packages
+      pip:
+        name: ansible
+        state: latest
+
     - name: clone the iac codes
       git:
         repo: https://github.com/jacobbaek/hanu-iac.git
@@ -55,3 +60,4 @@
       copy:
         src: files/hosts
         dest: /etc/hosts
+  

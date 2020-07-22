@@ -1,3 +1,2 @@
 IPLIST=`grep "ip=" ${PWD}/../inventory/hosts.ini | awk '{print $2}' | awk -F'=' '{print $2}'`
-HOSTS=`cat ../inventory/hosts.ini | grep access_ip | awk '{print $2, $1}' | sed "s/access_ip=//g" > ../files/hosts`
 declare -a IPS=(${IPLIST[@]})
