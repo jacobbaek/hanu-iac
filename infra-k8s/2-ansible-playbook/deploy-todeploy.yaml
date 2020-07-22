@@ -44,6 +44,7 @@
 
     - name: install pip packages
       pip:
+        executable: pip3
         name: ansible
         state: latest
 
@@ -56,9 +57,24 @@
       openssh_keypair:
         path: /root/.ssh/id_rsa
         size: 2048
+
+    - name: getting the ssh public key into local
+      fetch:
+        src: /root/.ssh/id_rsa.pub
+        dest: files/
+        flat: yes
     
     - name: copy the host file 
       copy:
         src: files/hosts
         dest: /etc/hosts
   
+    - name: clone the kubespray
+      git:
+        repo: https://github.com/kubernetes-sigs/kubespray.git
+        dest: /root/infra-kubespray
+        version: release-2.13
+
+    - pip:
+      requirements: requirements.txt
+

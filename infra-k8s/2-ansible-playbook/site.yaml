@@ -1,0 +1,15 @@
+---
+### WIP....
+- name: making deploy server ready to deploy
+  hosts: deploy
+  gather_facts: no
+
+  tasks:
+    include: deploy_node.yaml
+
+- name: making all infra servers ready to deploy
+  hosts: infra
+  gather_facts: no
+
+  tasks:
+    include: deploy_infar_nodes.yaml

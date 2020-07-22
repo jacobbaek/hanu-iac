@@ -33,11 +33,10 @@
         state: latest
 
     - name: comment out ntp servers
-      lineinfile:
-        dest: /etc/chrony.conf
-        regex: "^server "
-        line: "# server "
-        state: present
+      replace:
+        path: /etc/chrony.conf
+        regexp: "^server "
+        replace: "# server "
 
     - name: add 
       lineinfile:
