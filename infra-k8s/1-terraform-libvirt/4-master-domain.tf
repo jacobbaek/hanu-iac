@@ -36,6 +36,14 @@ resource "libvirt_domain" "master-instances" {
     wait_for_lease = false
   }
 
+  # ceph monitor network
+  network_interface {
+    #network_name = "ceph-monitor"
+    bridge = "br0.40"
+    addresses = ["10.10.40.7${count.index+1}"]
+    wait_for_lease = false
+  }
+
   # external network (ip)
   network_interface {
     bridge = "br0.110"
