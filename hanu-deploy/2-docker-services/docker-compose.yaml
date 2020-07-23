@@ -12,5 +12,11 @@ services:
       - "5000:5000"
     network_mode: "host"
   
+  webmin:
+    image: pschatzmann/webmin
+    container_name: webmin
+    ports:
+      - 10000:10000
+
 volumes:
   nexus-data: {}
