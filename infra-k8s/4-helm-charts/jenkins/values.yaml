@@ -102,7 +102,6 @@ master:
   # you should revert master.adminUser to your preferred admin user:
   adminUser: "admin"
   # adminPassword: <defaults to random>
-  adminPassword: "password"
   admin:
     existingSecret: ""
     userKey: jenkins-admin-user
@@ -394,11 +393,11 @@ master:
     # Set this path to jenkinsUriPrefix above or use annotations to rewrite path
     # path: "/jenkins"
     # configures the hostname e.g. jenkins.example.com
-    hostName:
+    hostName: jenkins.hanu-ci.io
     tls:
-    # - secretName: jenkins.cluster.local
-    #   hosts:
-    #     - jenkins.cluster.local
+      - secretName: jenkins.hanu-ci.io
+        hosts:
+          - jenkins.hanu-ci.io
 
   # If you're running on GKE and need to configure a backendconfig
   # to finish ingress setup, use the following values.
