@@ -4,6 +4,7 @@ services:
   nexus:
     user: root
     privileged: true
+    container_name: nexus3
     image: sonatype/nexus3
     volumes:
       - "/data/nexus-data:/nexus-data"
@@ -13,10 +14,11 @@ services:
     network_mode: "host"
   
   webmin:
-    image: pschatzmann/webmin
+    image: dubaek/webmin:1.1
     container_name: webmin
     ports:
       - 10000:10000
+    network_mode: "host"
 
 volumes:
   nexus-data: {}
