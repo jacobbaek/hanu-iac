@@ -231,6 +231,7 @@ master:
     - credentials-binding:1.23
     - git:4.2.2
     - configuration-as-code:1.41
+    - github:1.31.0
 
   # List of plugins to install in addition to those listed in master.installPlugins
   additionalPlugins: []
