@@ -24,3 +24,4 @@ helm install [helm_name] -f values.yaml . -n [namespace]
 - phpldapadmin
   - https://github.com/cetic/helm-phpLDAPadmin
   - when it deployed, you can access with account that is on openldap.
+  - phpldapadmin web ui can access by ingress address.
