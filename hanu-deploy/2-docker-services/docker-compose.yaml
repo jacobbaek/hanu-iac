@@ -13,11 +13,22 @@ services:
       - "5000:5000"
     network_mode: "host"
   
-  webmin:
-    image: dubaek/webmin:1.1
-    container_name: webmin
+#  webmin:
+#    image: webmin:1.2
+#    container_name: webmin
+#    privileged: true
+#    ports:
+#      - 10000:10000
+#      - 53:53
+#    network_mode: "host"
+
+  libvirt-exporter:
+    container_name: libvirt-exporter
+    image: ycy1766/libvirt_exporter:v0.1.1
+    volumes:
+      - /var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock
     ports:
-      - 10000:10000
+      - "9177:9177"
     network_mode: "host"
 
 volumes:
