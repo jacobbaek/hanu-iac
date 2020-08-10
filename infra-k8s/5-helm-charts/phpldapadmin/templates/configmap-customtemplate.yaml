@@ -1,0 +1,21 @@
+#
+{{- if .Values.customtemplateFiles }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "phpldapadmin.fullname" . }}-customtemplate
+  labels:
+    app: {{ template "phpldapadmin.name" . }}
+    chart: {{ template "phpldapadmin.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+{{- if .Values.extraLabels }}
+{{ toYaml .Values.extraLabels | indent 4 }}
+{{- end }}
+data:
+{{- range $key, $val := .Values.customtemplateFiles }}
+  {{ $key }}: |-
+{{ $val | indent 4}}
+{{- end }}
+{{- end }}
+
