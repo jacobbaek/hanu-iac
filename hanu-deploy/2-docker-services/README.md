@@ -1,4 +1,8 @@
-# running nexus3 with docker-compose
+# run the services for deploy server.
+Those scripts that made by docker-compose have below components.
+- nexus3
+- webmin(it doesn't use)
+- prometheus-libvirt-exporter
 
-# upload ceph-custom-repo using nexus3 cli 
-
+# what is extra files
+upload ceph-custom-repo using nexus3 cli 
