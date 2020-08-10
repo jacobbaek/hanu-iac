@@ -16,6 +16,7 @@ helm install [helm_name] -f values.yaml . -n [namespace]
 ### nginx-ingress
 
 ### LDAP
+> namespace: ldap
 - openldap
   - admin password will check by kubectl get secret. (You can find command by 'helm get notes')
   - users, groups OU already included through ldif file template.
@@ -25,3 +26,11 @@ helm install [helm_name] -f values.yaml . -n [namespace]
   - phpldapadmin web ui can access by ingress address.
   - You can access by 'cn=admin,dc=hanu-ci,dc=io' with password
     And also can make user below users OU.
+
+### Logging and Monitoring
+> namespace: lma
+- elasticsearch
+- fluent-bit
+- kibana
+- grafana
+- prometheus-operator
