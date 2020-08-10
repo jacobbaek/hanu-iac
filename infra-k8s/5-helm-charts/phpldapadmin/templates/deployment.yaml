@@ -21,6 +21,18 @@ spec:
         app: {{ template "phpldapadmin.name" . }}
         release: {{ .Release.Name }}
     spec:
+      {{- if .Values.customtemplateFiles }}
+      initContainers:
+      - name: {{ .Chart.Name }}-init-template
+        image: busybox
+        command: ['sh', '-c', 'cp /customtemplate/*.xml /tempdir']
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        volumeMounts:
+        - name: customtemplate
+          mountPath: /customtemplate
+        - name: tempdir
+          mountPath: /tempdir
+      {{- end }}
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -32,6 +44,12 @@ spec:
         envFrom:
         - configMapRef:
             name: {{ template "phpldapadmin.fullname" . }}
+        {{- if .Values.customtemplateFiles }}
+        volumeMounts:
+          - name: tempdir
+            #mountPath: /var/www/phpldapadmin/templates/modification
+            mountPath: /var/tmp
+        {{- end }}
         livenessProbe:
 {{ toYaml .Values.livenessProbe | indent 12 }}
         readinessProbe:
@@ -50,3 +68,11 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
+      volumes:
+        {{- if .Values.customtemplateFiles }}
+        - name: customtemplate
+          configMap:
+            name: {{ template "phpldapadmin.fullname" . }}-customtemplate
+        - name: tempdir
+          emptyDir: {}
+        {{- end }}

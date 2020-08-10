@@ -31,8 +31,8 @@ image:
 ## ref: http://kubernetes.io/docs/user-guide/services/
 ##
 service:
-  type: ClusterIP
-  ## name: phpldapadmin
+  type: LoadBalancer
+  name: phpldapadmin
   port: 80
   annotations: {}
 
@@ -50,7 +50,7 @@ service:
 ## Configure Ingress based on the documentation here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ##
 ingress:
-  enabled: true
+  enabled: false
   annotations: {}
   path: /
   ## Ingress Host
@@ -74,6 +74,10 @@ livenessProbe:
    httpGet:
      path: /
      port: http
+
+## Configure custom template (such as, userAccount with email, phone) 
+#customtemplateFiles:
+#  userAccount.xml: {}
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

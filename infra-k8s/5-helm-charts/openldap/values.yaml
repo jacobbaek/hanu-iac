@@ -67,9 +67,29 @@ env:
 # configPassword: config
 
 # Custom openldap configuration files used to override default settings
-# customLdifFiles:
-  # 01-default-users.ldif: |-
-    # Predefine users here
+customLdifFiles:
+  01-default-users.ldif: |-
+    dn: ou=users,dc=hanu-ci,dc=io
+    objectclass: organizationalUnit
+    objectclass: top
+    ou: users
+
+    dn: ou=groups,dc=hanu-ci,dc=io
+    objectclass: organizationalUnit
+    objectclass: top
+    ou: groups
+
+    dn: cn=admingroup,ou=groups,dc=hanu-ci,dc=io
+    gidNumber: 500
+    cn: admingroup
+    objectClass: posixGroup
+    objectClass: top
+
+    dn: cn=usergroup,ou=groups,dc=hanu-ci,dc=io
+    gidNumber: 501
+    cn: usergroup
+    objectClass: posixGroup
+    objectClass: top
 
 ## Persist data to a persistent volume
 persistence:
