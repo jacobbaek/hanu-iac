@@ -206,7 +206,7 @@ extraContainerVolumes: []
 ##
 persistence:
   type: pvc
-  enabled: false
+  enabled: true
   # storageClassName: default
   accessModes:
     - ReadWriteOnce
@@ -354,17 +354,17 @@ notifiers: {}
 ## `path` must be /var/lib/grafana/dashboards/<provider_name>
 ##
 dashboardProviders: {}
-#  dashboardproviders.yaml:
-#    apiVersion: 1
-#    providers:
-#    - name: 'default'
-#      orgId: 1
-#      folder: ''
-#      type: file
-#      disableDeletion: false
-#      editable: true
-#      options:
-#        path: /var/lib/grafana/dashboards/default
+  prometheus-dashboard.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/
 
 ## Configure grafana dashboard to import
 ## NOTE: To use dashboards you must also enable/configure dashboardProviders
@@ -374,8 +374,8 @@ dashboardProviders: {}
 ##
 dashboards:
   default:
-    logging-dashboard:
-      file: dashboards/logging-dashboard.json
+    prometheus-dashboard:
+      file: dashboards/prometheus-dashboard.json
   # default:
   #   some-dashboard:
   #     json: |
@@ -448,13 +448,12 @@ grafana.ini:
 ## ref: http://docs.grafana.org/installation/configuration/#auth-ldap
 ## ref: http://docs.grafana.org/installation/ldap/#configuration
 ldap:
-  enabled: true
+  enabled: false
   # `existingSecret` is a reference to an existing secret containing the ldap configuration
   # for Grafana in a key `ldap-toml`.
-  existingSecret: "openldap"
+  existingSecret: "ldap-toml"
   # `config` is the content of `ldap.toml` that will be stored in the created secret
   config: |-
-  # config: |-
     verbose_logging = true
 
     [[servers]]
