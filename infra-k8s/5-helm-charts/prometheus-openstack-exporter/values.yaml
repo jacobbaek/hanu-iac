@@ -1,0 +1,21 @@
+endpoint_type: internal
+cloud: default
+
+image:
+  repository: quay.io/niedbalski/openstack-exporter-linux-amd64
+  tag: v1.1.0
+  pullPolicy: IfNotPresent
+
+serviceMonitor:
+  interval: 1m
+  scrapeTimeout: 30s
+
+cloudConfig:
+  auth_url: http://keystone.openstack.svc.cluster.local:80/v3
+  username: admin
+  password: ""
+  project_domain_name: default
+  user_domain_name: default
+  project_name: admin
+  identity_api_version: 3
+  verify: "false"  
