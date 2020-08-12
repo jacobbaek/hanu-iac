@@ -396,7 +396,7 @@ master:
     # configures the hostname e.g. jenkins.example.com
     hostName: jenkins.hanu-ci.io
     tls:
-      - secretName: jenkins.hanu-ci.io
+      - secretName: hanu-certs 
         hosts:
           - jenkins.hanu-ci.io
 
