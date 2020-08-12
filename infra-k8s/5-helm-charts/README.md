@@ -7,6 +7,11 @@ Below command was used when we deployed.
 helm install [helm_name] -f values.yaml . -n [namespace]
 ```
 
+If you use helm version 2, then you should run like below command.
+```
+helm install --name [helm_name] --namespace [namespace] -f values.yaml .
+```
+
 # Components 
 
 ### jenkins
