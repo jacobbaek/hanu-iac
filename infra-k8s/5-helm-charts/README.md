@@ -10,6 +10,7 @@ helm install [helm_name] -f values.yaml . -n [namespace]
 # Components 
 
 ### jenkins
+> namespace: jenkins
 
 ### metallb
 
