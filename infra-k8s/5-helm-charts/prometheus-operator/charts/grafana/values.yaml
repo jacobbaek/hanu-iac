@@ -50,8 +50,7 @@ livenessProbe:
 
 image:
   repository: grafana/grafana
-  tag: 7.0.5
-  sha: ""
+  tag: 7.0.3
   pullPolicy: IfNotPresent
 
   ## Optionally specify an array of imagePullSecrets.
@@ -93,7 +92,6 @@ extraEmptyDirMounts: []
 downloadDashboardsImage:
   repository: curlimages/curl
   tag: 7.70.0
-  sha: ""
   pullPolicy: IfNotPresent
 
 downloadDashboards:
@@ -116,7 +114,7 @@ podPortName: grafana
 ## ref: http://kubernetes.io/docs/user-guide/services/
 ##
 service:
-  type: LoadBalancer
+  type: ClusterIP
   port: 80
   targetPort: 3000
     # targetPort: 4181 To be used with a proxy extraContainer
@@ -206,7 +204,7 @@ extraContainerVolumes: []
 ##
 persistence:
   type: pvc
-  enabled: true
+  enabled: false
   # storageClassName: default
   accessModes:
     - ReadWriteOnce
@@ -228,7 +226,6 @@ initChownData:
   image:
     repository: busybox
     tag: "1.31.1"
-    sha: ""
     pullPolicy: IfNotPresent
 
   ## initChownData resource requests and limits
@@ -305,30 +302,22 @@ extraVolumeMounts: []
 
 ## Pass the plugins you want installed as a list.
 ##
-plugins:
-  - grafana-piechart-panel
+plugins: []
+  # - digrich-bubblechart-panel
+  # - grafana-clock-panel
 
 ## Configure grafana datasources
 ## ref: http://docs.grafana.org/administration/provisioning/#datasources
 ##
-datasources:
-  datasources.yaml:
-    apiVersion: 1
-    datasources:
-    - name: Elasticsearch
-      type: elasticsearch
-      access: proxy
-      url: http://elasticsearch-master:9200
-      database: "kubernetes_cluster*"
-      jsonData:
-        timeField: "@timestamp"
-        esVersion: 70
-      isDefault: true
-    - name: Prometheus
-      type: prometheus
-      url: http://prometheus-prometheus-oper-prometheus:9090
-      access: proxy
-      isDefault: false
+datasources: {}
+#  datasources.yaml:
+#    apiVersion: 1
+#    datasources:
+#    - name: Prometheus
+#      type: prometheus
+#      url: http://prometheus-prometheus-server
+#      access: proxy
+#      isDefault: true
 
 ## Configure notifiers
 ## ref: http://docs.grafana.org/administration/provisioning/#alert-notification-channels
@@ -354,17 +343,17 @@ notifiers: {}
 ## `path` must be /var/lib/grafana/dashboards/<provider_name>
 ##
 dashboardProviders: {}
-  prometheus-dashboard.yaml:
-    apiVersion: 1
-    providers:
-    - name: 'default'
-      orgId: 1
-      folder: ''
-      type: file
-      disableDeletion: false
-      editable: true
-      options:
-        path: /var/lib/grafana/dashboards/
+#  dashboardproviders.yaml:
+#    apiVersion: 1
+#    providers:
+#    - name: 'default'
+#      orgId: 1
+#      folder: ''
+#      type: file
+#      disableDeletion: false
+#      editable: true
+#      options:
+#        path: /var/lib/grafana/dashboards/default
 
 ## Configure grafana dashboard to import
 ## NOTE: To use dashboards you must also enable/configure dashboardProviders
@@ -372,10 +361,7 @@ dashboardProviders: {}
 ##
 ## dashboards per provider, use provider name as key.
 ##
-dashboards:
-  default:
-    prometheus-dashboard:
-      file: dashboards/prometheus-dashboard.json
+dashboards: {}
   # default:
   #   some-dashboard:
   #     json: |
@@ -451,18 +437,19 @@ ldap:
   enabled: false
   # `existingSecret` is a reference to an existing secret containing the ldap configuration
   # for Grafana in a key `ldap-toml`.
-  existingSecret: "ldap-toml"
+  existingSecret: ""
   # `config` is the content of `ldap.toml` that will be stored in the created secret
-  config: |-
-    verbose_logging = true
+  config: ""
+  # config: |-
+  #   verbose_logging = true
 
-    [[servers]]
-    host = "openldap.ldap.svc.hanucluster.local"
-    port = 389
-    use_ssl = false
-    start_tls = false
-    ssl_skip_verify = false
-    bind_dn = "uid=%s,ou=users,dc=hanu-ci,dc=io"
+  #   [[servers]]
+  #   host = "my-ldap-server"
+  #   port = 636
+  #   use_ssl = true
+  #   start_tls = false
+  #   ssl_skip_verify = false
+  #   bind_dn = "uid=%s,ou=users,dc=myorg,dc=com"
 
 ## Grafana's SMTP configuration
 ## NOTE: To enable, grafana.ini must be configured with smtp.enabled
@@ -480,7 +467,6 @@ sidecar:
   image:
     repository: kiwigrid/k8s-sidecar
     tag: 0.1.151
-    sha: ""
   imagePullPolicy: IfNotPresent
   resources: {}
 #   limits:
@@ -523,14 +509,6 @@ sidecar:
     # label that the configmaps with datasources are marked with
     label: grafana_datasource
     # If specified, the sidecar will search for datasource config-maps inside this namespace.
-    # Otherwise the namespace in which the sidecar is running will be used.
-    # It's also possible to specify ALL to search in all namespaces
-    searchNamespace: null
-  notifiers:
-    enabled: false
-    # label that the configmaps with notifiers are marked with
-    label: grafana_notifier
-    # If specified, the sidecar will search for notifier config-maps inside this namespace.
     # Otherwise the namespace in which the sidecar is running will be used.
     # It's also possible to specify ALL to search in all namespaces
     searchNamespace: null
