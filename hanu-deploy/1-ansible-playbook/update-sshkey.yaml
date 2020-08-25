@@ -5,9 +5,12 @@
   gather_facts: no
 
   tasks:
+    - name: instruction for how to get the ssh public key list
+      debug:
+        msg: "run the collect-sshkeys.sh script on this directory"
+
     - name: Insert public key into authorized_keys file.
       blockinfile:
         path: /root/.ssh/authorized_keys
         block: "{{ lookup('file', './authorized_keys') }}"
         backup: yes
-
