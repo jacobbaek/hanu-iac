@@ -557,7 +557,7 @@ grafana:
 
   ## Configure additional grafana datasources (passed through tpl)
   ## ref: http://docs.grafana.org/administration/provisioning/#datasources
-  additionalDataSources: []
+  additionalDataSources: 
     - name: Prometheus
       type: prometheus
       url: http://prometheus-prometheus-oper-prometheus:9090
@@ -1835,7 +1835,7 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: csi-rbd-sc
+          storageClassName: rbd
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:

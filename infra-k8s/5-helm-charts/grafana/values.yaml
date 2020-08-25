@@ -116,7 +116,7 @@ podPortName: grafana
 ## ref: http://kubernetes.io/docs/user-guide/services/
 ##
 service:
-  type: LoadBalancer
+  type: ClusterIP
   port: 80
   targetPort: 3000
     # targetPort: 4181 To be used with a proxy extraContainer
@@ -133,23 +133,27 @@ extraExposePorts: []
 ingress:
   enabled: false
   # Values can be templated
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    #kubernetes.io/tls-acme: "true"
   labels: {}
   path: /
   hosts:
-    - chart-example.local
+    - grafana.example.com
+  backend:
+    serviceName: grafana
+    servicePort: 80
   ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
-  extraPaths: []
-  # - path: /*
-  #   backend:
-  #     serviceName: ssl-redirect
-  #     servicePort: use-annotation
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  #extraPaths:
+  #  - path: /
+  #    backend:
+  #      serviceName: grafana
+  #      servicePort: 80
+  tls:
+    - secretName: hanu-certs
+      hosts:
+        - grafana.example.com
 
 resources: {}
 #  limits:
@@ -354,17 +358,17 @@ notifiers: {}
 ## `path` must be /var/lib/grafana/dashboards/<provider_name>
 ##
 dashboardProviders: {}
-  prometheus-dashboard.yaml:
-    apiVersion: 1
-    providers:
-    - name: 'default'
-      orgId: 1
-      folder: ''
-      type: file
-      disableDeletion: false
-      editable: true
-      options:
-        path: /var/lib/grafana/dashboards/
+#  prometheus-dashboard.yaml:
+#    apiVersion: 1
+#    providers:
+#    - name: 'default'
+#      orgId: 1
+#      folder: ''
+#      type: file
+#      disableDeletion: false
+#      editable: true
+#      options:
+#        path: /var/lib/grafana/dashboards/
 
 ## Configure grafana dashboard to import
 ## NOTE: To use dashboards you must also enable/configure dashboardProviders
@@ -374,8 +378,10 @@ dashboardProviders: {}
 ##
 dashboards:
   default:
-    prometheus-dashboard:
-      file: dashboards/prometheus-dashboard.json
+    fluent-bit-dashboard:
+      file: https://raw.githubusercontent.com/jacobbaek/hanu-iac/master/infra-k8s/5-helm-charts/grafana/dashboards/fluent-bit-dashboard.json
+    libvirt-dashboard:
+      file: https://raw.githubusercontent.com/jacobbaek/hanu-iac/master/infra-k8s/5-helm-charts/grafana/dashboards/libvirt-dashboard.json
   # default:
   #   some-dashboard:
   #     json: |
@@ -437,8 +443,8 @@ grafana.ini:
  #    client_secret:
 ## LDAP Authentication can be enabled with the following values on grafana.ini
 ## NOTE: Grafana will fail to start if the value for ldap.toml is invalid
-  # auth.ldap:
-  #   enabled: true
+  auth.ldap:
+    enabled: true
   #   allow_sign_up: true
   #   config_file: /etc/grafana/ldap.toml
 
@@ -448,7 +454,7 @@ grafana.ini:
 ## ref: http://docs.grafana.org/installation/configuration/#auth-ldap
 ## ref: http://docs.grafana.org/installation/ldap/#configuration
 ldap:
-  enabled: false
+  enabled: true
   # `existingSecret` is a reference to an existing secret containing the ldap configuration
   # for Grafana in a key `ldap-toml`.
   existingSecret: "ldap-toml"
@@ -457,12 +463,17 @@ ldap:
     verbose_logging = true
 
     [[servers]]
-    host = "openldap.ldap.svc.hanucluster.local"
+    host = "172.16.1.2"
     port = 389
     use_ssl = false
     start_tls = false
     ssl_skip_verify = false
     bind_dn = "uid=%s,ou=users,dc=hanu-ci,dc=io"
+
+    [[servers.group_mappings]]
+    group_dn = "cn=admingroup,ou=users,dc=hanu-ci,dc=io"
+    org_role = "Admin"
+    grafana_admin = true
 
 ## Grafana's SMTP configuration
 ## NOTE: To enable, grafana.ini must be configured with smtp.enabled
