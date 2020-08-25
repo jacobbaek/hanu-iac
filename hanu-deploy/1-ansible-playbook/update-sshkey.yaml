@@ -5,6 +5,9 @@
   gather_facts: no
 
   tasks:
-    - name: copy from 
+    - name: Insert public key into authorized_keys file.
       blockinfile:
+        path: /root/.ssh/authorized_keys
+        block: "{{ lookup('file', './authorized_keys') }}"
+        backup: yes
 
