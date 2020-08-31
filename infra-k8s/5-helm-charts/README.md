@@ -33,10 +33,15 @@ helm install --name [helm_name] --namespace [namespace] -f values.yaml .
   - You can access by 'cn=admin,dc=hanu-ci,dc=io' with password
     And also can make user below users OU.
 
+### minio
+> namespace: minio
+- minio
+  this application will be used for management of JCaaC file.
+
 ### Logging and Monitoring
 > namespace: lma
-- elasticsearch
 - fluent-bit
-- kibana
-- grafana
+- elasticsearch
+- kibana (Optional)
 - prometheus-operator
+- grafana

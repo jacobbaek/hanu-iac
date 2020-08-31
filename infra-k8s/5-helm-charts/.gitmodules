@@ -1,0 +1,6 @@
+[submodule "prometheus-libvirt-exporter"]
+	path = prometheus-libvirt-exporter
+	url = https://github.com/ycy1766/prometheus-openstack-exporter.git/
+[submodule "prometheus-openstack-exporter"]
+	path = prometheus-openstack-exporter
+	url = https://github.com/ycy1766/prometheus-openstack-exporter.git/

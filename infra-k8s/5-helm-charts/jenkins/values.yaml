@@ -232,6 +232,9 @@ master:
     - git:4.2.2
     - configuration-as-code:1.41
     - github:1.31.0
+    - generic-webhook-trigger:2.7.4
+    - ldap:1.24
+    - role-strategy:3.0
 
   # List of plugins to install in addition to those listed in master.installPlugins
   additionalPlugins: []
@@ -396,7 +399,7 @@ master:
     # configures the hostname e.g. jenkins.example.com
     hostName: jenkins.hanu-ci.io
     tls:
-      - secretName: jenkins.hanu-ci.io
+      - secretName: hanu-certs 
         hosts:
           - jenkins.hanu-ci.io
 
