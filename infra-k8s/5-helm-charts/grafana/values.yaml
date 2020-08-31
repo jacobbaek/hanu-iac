@@ -311,6 +311,10 @@ extraVolumeMounts: []
 ##
 plugins:
   - grafana-piechart-panel
+  - btplc-status-dot-panel
+# below issue was occurred. so this plugin disabled now.
+# https://github.com/grafana/grafana-image-renderer/issues/148
+#  - grafana-image-renderer
 
 ## Configure grafana datasources
 ## ref: http://docs.grafana.org/administration/provisioning/#datasources
