@@ -235,6 +235,7 @@ master:
     - generic-webhook-trigger:2.7.4
     - ldap:1.24
     - role-strategy:3.0
+    - ssh-slave:1.31.2
 
   # List of plugins to install in addition to those listed in master.installPlugins
   additionalPlugins: []
