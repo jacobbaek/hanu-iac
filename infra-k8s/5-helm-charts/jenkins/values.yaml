@@ -225,7 +225,7 @@ master:
 
   # List of plugins to be install during Jenkins master start
   installPlugins:
-    - kubernetes:1.25.7
+    - kubernetes:1.26.4
     - workflow-job:2.39
     - workflow-aggregator:2.6
     - credentials-binding:1.23
@@ -235,6 +235,7 @@ master:
     - generic-webhook-trigger:2.7.4
     - ldap:1.24
     - role-strategy:3.0
+    - timestamper:1.11.5
 
   # List of plugins to install in addition to those listed in master.installPlugins
   additionalPlugins: []
