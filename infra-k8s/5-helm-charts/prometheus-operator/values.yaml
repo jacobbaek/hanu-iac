@@ -1859,10 +1859,10 @@ prometheus:
     ## port to 2379 and allow etcd scraping provided it is running on all Kubernetes master nodes
     ##
     additionalScrapeConfigs:
-     - job_name: libvirt-exporter
+     - job_name: openstack-libvirt-ceph-exporter
        scrape_interval: 60s
        static_configs:
-       - targets: ['172.16.0.2:9177']
+       - targets: ['172.16.0.2:9177', '172.16.0.53:9283', 'openstack-exporter-prometheus-openstack-exporter.lma.svc.cluster.local:9180']
 
     #additionalScrapeConfigs: []
     # - job_name: kube-etcd
