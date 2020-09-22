@@ -1,3 +1,23 @@
 # 
 # References
 # * https://medium.com/@madushagunasekara/export-mysql-db-dump-from-kubernetes-pod-and-restore-mysql-db-on-kubernetes-pod-6f4ecc6b5a64
+#
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: backup-mariadb
+  namespace: openstack
+spec:
+  schedule: "*/1 * * * *"
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: backup-mariadb
+              image: bigtruedata/mysqldump
+              command: ["/bin/sh"]
+              args: ["-c", "mysqldump -h mariadb.openstack.svc.cluster.local -u root -ppassword --all-databases > tdb.sql"]
+          restartPolicy: OnFailure
