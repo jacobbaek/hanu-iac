@@ -1,0 +1,10 @@
+#cloud-config 
+password: root123 
+chpasswd: 
+  list: | root:root123
+  expire: False
+ssh_pwauth: True
+runcmd: 
+  - 'systemctl disable NetworkManager'
+  - 'timedatectl set-timezone Asia/Seoul'
+  - 'yum install -y vim'

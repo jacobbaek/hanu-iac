@@ -33,6 +33,7 @@ openstack server create --flavor m1.large \
                         --network $secondNetUuid \
                         --network $thirdNetUuid \
                         --security-group $sgId \
+                        --user-data userdata.file \
                         $VmName
 
 serverUuid=`openstack server list -f value | grep $VmName | awk '{print $1}'`
