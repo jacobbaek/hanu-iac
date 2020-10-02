@@ -47,7 +47,7 @@ email =  "email"
 
 # Map ldap groups to grafana org roles
 [[servers.group_mappings]]
-group_dn = "ou=admingroup,ou=groups,dc=hanu-ci,dc=io"
+group_dn = "cn=admingroup,ou=groups,dc=hanu-ci,dc=io"
 org_role = "Admin"
 # To make user an instance admin  (Grafana Admin) uncomment line below
 # grafana_admin = true
@@ -55,7 +55,7 @@ org_role = "Admin"
 # org_id = 1
 
 [[servers.group_mappings]]
-group_dn = "cn=users,ou=groups,dc=hanu-ci,dc=io"
+group_dn = "cn=usergroup,ou=groups,dc=hanu-ci,dc=io"
 org_role = "Editor"
 
 [[servers.group_mappings]]

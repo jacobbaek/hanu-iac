@@ -361,7 +361,7 @@ notifiers: {}
 ##
 ## `path` must be /var/lib/grafana/dashboards/<provider_name>
 ##
-dashboardProviders: {}
+#dashboardProviders: 
 #  prometheus-dashboard.yaml:
 #    apiVersion: 1
 #    providers:
@@ -382,10 +382,10 @@ dashboardProviders: {}
 ##
 dashboards:
   default:
-    fluent-bit-dashboard:
-      file: https://raw.githubusercontent.com/jacobbaek/hanu-iac/master/infra-k8s/5-helm-charts/grafana/dashboards/fluent-bit-dashboard.json
-    libvirt-dashboard:
-      file: https://raw.githubusercontent.com/jacobbaek/hanu-iac/master/infra-k8s/5-helm-charts/grafana/dashboards/libvirt-dashboard.json
+    openstack-dashboard:
+      url: https://raw.githubusercontent.com/jacobbaek/hanu-iac/master/infra-k8s/5-helm-charts/grafana/dashboards/OpenStack%20Metric%20Dashboard-1599035748231.json
+    logging-dashboard:
+      url: https://raw.githubusercontent.com/jacobbaek/hanu-iac/master/infra-k8s/5-helm-charts/grafana/dashboards/Logging%20Dashboard-1599035798999.json
   # default:
   #   some-dashboard:
   #     json: |
@@ -422,13 +422,14 @@ grafana.ini:
     data: /var/lib/grafana/data
     logs: /var/log/grafana
     plugins: /var/lib/grafana/plugins
-    provisioning: /etc/grafana/provisioning
+    #provisioning: /etc/grafana/provisioning
+    provisioning: /var/lib/grafana/dashboards/
   analytics:
     check_for_updates: true
   log:
     mode: console
   grafana_net:
-    url: https://grafana.net
+    url: https://lma.hanu-ci.io
 ## grafana Authentication can be enabled with the following values on grafana.ini
  # server:
       # The full public facing url you use in browser, used for redirects and emails
@@ -463,21 +464,30 @@ ldap:
   # for Grafana in a key `ldap-toml`.
   existingSecret: "ldap-toml"
   # `config` is the content of `ldap.toml` that will be stored in the created secret
-  config: |-
-    verbose_logging = true
+#  config: |-
+#    verbose_logging = true
+#
+#    [[servers]]
+#    host = "172.16.1.2"
+#    port = 389
+#    use_ssl = false
+#    start_tls = false
+#    ssl_skip_verify = false
+#    bind_dn = "uid=%s,ou=users,dc=hanu-ci,dc=io"
+#
+#    [[servers.group_mappings]]
+#    group_dn = "cn=admingroup,ou=groups,dc=hanu-ci,dc=io"
+#    org_role = "Admin"
+#    grafana_admin = true
+#
+#    [[servers.group_mappings]]
+#    group_dn = "cn=usergroup,ou=groups,dc=hanu-ci,dc=io"
+#    org_role = "Editor"
+# 
+#    [[servers.group_mappings]]
+#    group_dn = "*"
+#    org_role = "Viewer"
 
-    [[servers]]
-    host = "172.16.1.2"
-    port = 389
-    use_ssl = false
-    start_tls = false
-    ssl_skip_verify = false
-    bind_dn = "uid=%s,ou=users,dc=hanu-ci,dc=io"
-
-    [[servers.group_mappings]]
-    group_dn = "cn=admingroup,ou=users,dc=hanu-ci,dc=io"
-    org_role = "Admin"
-    grafana_admin = true
 
 ## Grafana's SMTP configuration
 ## NOTE: To enable, grafana.ini must be configured with smtp.enabled
