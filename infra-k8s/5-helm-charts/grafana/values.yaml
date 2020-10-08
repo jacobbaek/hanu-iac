@@ -361,18 +361,18 @@ notifiers: {}
 ##
 ## `path` must be /var/lib/grafana/dashboards/<provider_name>
 ##
-#dashboardProviders: 
-#  prometheus-dashboard.yaml:
-#    apiVersion: 1
-#    providers:
-#    - name: 'default'
-#      orgId: 1
-#      folder: ''
-#      type: file
-#      disableDeletion: false
-#      editable: true
-#      options:
-#        path: /var/lib/grafana/dashboards/
+dashboardProviders: 
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/
 
 ## Configure grafana dashboard to import
 ## NOTE: To use dashboards you must also enable/configure dashboardProviders
@@ -386,6 +386,10 @@ dashboards:
       url: https://raw.githubusercontent.com/jacobbaek/hanu-iac/master/infra-k8s/5-helm-charts/grafana/dashboards/OpenStack%20Metric%20Dashboard-1599035748231.json
     logging-dashboard:
       url: https://raw.githubusercontent.com/jacobbaek/hanu-iac/master/infra-k8s/5-helm-charts/grafana/dashboards/Logging%20Dashboard-1599035798999.json
+    ceph-dashboard:
+      gnetId: 7056 
+      revision: 1
+      datasource: Prometheus
   # default:
   #   some-dashboard:
   #     json: |
