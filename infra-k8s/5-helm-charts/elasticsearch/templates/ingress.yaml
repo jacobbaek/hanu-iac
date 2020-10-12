@@ -2,10 +2,12 @@
 {{- $fullName := include "elasticsearch.uname" . -}}
 {{- $servicePort := .Values.httpPort -}}
 {{- $ingressPath := .Values.ingress.path -}}
+{{- $serviceName := .Values.ingress.serviceName -}}
 apiVersion: {{ template "elasticsearch.ingress.apiVersion" . }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}
+  namespace: {{ .Values.ingress.namespace }}
   labels:
     app: {{ .Chart.Name }}
     release: {{ .Release.Name }}
@@ -32,7 +34,7 @@ spec:
         paths:
           - path: {{ $ingressPath }}
             backend:
-              serviceName: {{ $fullName }}
+              serviceName: {{ $serviceName }}
               servicePort: {{ $servicePort }}
   {{- end }}
 {{- end }}

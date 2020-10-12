@@ -229,17 +229,20 @@ tolerations: []
 # Enabling this will publically expose your Elasticsearch instance.
 # Only enable this if you have security enabled on your cluster
 ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  path: /
+  enabled: true
+  namespace: openstack
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  path: /elastic
   hosts:
-    - chart-example.local
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+    - log.hanu-ci.io
+  serviceName: elastic-external
+  tls:
+    - secretName: hanu-certs
+      hosts:
+        - log.hanu-ci.io
 
 nameOverride: ""
 fullnameOverride: ""
