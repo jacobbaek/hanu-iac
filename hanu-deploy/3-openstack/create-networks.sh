@@ -1,22 +1,28 @@
 #!/bin/bash
 
-# create external(provider) network.
+# create external(private-mgmt-online) network.
 openstack network create --share --external \
---provider-physical-network provider \
---provider-network-type flat provider
+--provider-physical-network private-mgmt-online \
+--provider-network-type flat private-mgmt-online
 
 # create subnet that will be run on external(provider) network
-# the IP address (192.168.0.x)
-openstack subnet create --network provider \
---allocation-pool start=192.168.0.100,end=192.168.0.200 \
---dns-nameserver 8.8.4.4 --gateway 192.168.0.1 \
---subnet-range 192.168.0.0/24 provider
+# the IP address (172.16.0.0/18)
+openstack subnet create --network private-mgmt-online \
+--allocation-pool start=172.16.50.1,end=172.16.53.254 \
+--dns-nameserver 8.8.4.4,1.1.1.1 --gateway 172.16.0.1 \
+--subnet-range 172.16.0.0/18 private-mgmt-online
 
-# create private network. (the IP address doesn't need to change if you don't need)
-openstack network create selfservice
-openstack subnet create --network selfservice \
---dns-nameserver 8.8.4.4 --gateway 100.100.100.1 \
---subnet-range 100.100.100.0/24 selfservice
+# create private-data1 network.
+openstack network create private-data1
+openstack subnet create --network data1 \
+--dns-nameserver 8.8.4.4,1.1.1.1 --gateway 20.20.20.1 \
+--subnet-range 20.20.20.0/24 private-data1
+
+# create private-data2 network.
+openstack network create private-data2
+openstack subnet create --network data2 \
+--dns-nameserver 8.8.4.4,1.1.1.1 --gateway 30.30.30.1 \
+--subnet-range 30.30.30.0/24 private-data2
 
 # create subnet that will be run on private network
 #openstack router create --distributed router
