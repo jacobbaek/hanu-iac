@@ -10,4 +10,4 @@
 * infra-dmz
   * 1-terraform-libvirt
   * 2-wireguard
-  * 3-pfsense(not yet)
+  * 3-pfsense(unfortunatly, using iptables instead of pfsense)
