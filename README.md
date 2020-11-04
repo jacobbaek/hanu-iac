@@ -1,8 +1,10 @@
 # Infrastructure for HANU CICD 
 
 # Components
-* hanu-deploy
-  * automate to ready hanu deploy server
+* hanu-deploy: automate to ready hanu deploy server
+  * 1-ansible-playbook
+  * 2-docker-services
+  * 3-openstack : with openstack cli
 * infra-k8s
   * 1-terraform-libvirt
   * 2-ansible-playbook
