@@ -312,6 +312,7 @@ extraVolumeMounts: []
 plugins:
   - grafana-piechart-panel
   - btplc-status-dot-panel
+  - vonage-status-panel
 # below issue was occurred. so this plugin disabled now.
 # https://github.com/grafana/grafana-image-renderer/issues/148
 #  - grafana-image-renderer
@@ -341,20 +342,22 @@ datasources:
 ## Configure notifiers
 ## ref: http://docs.grafana.org/administration/provisioning/#alert-notification-channels
 ##
-notifiers: {}
-#  notifiers.yaml:
-#    notifiers:
-#    - name: email-notifier
-#      type: email
-#      uid: email1
-#      # either:
-#      org_id: 1
-#      # or
-#      org_name: Main Org.
-#      is_default: true
-#      settings:
-#        addresses: an_email_address@example.com
-#    delete_notifiers:
+notifiers:
+  notifiers.yaml:
+    notifiers:
+    - name: default-slack
+      type: slack
+      org_name: Main Org.
+      is_default: true
+      uid: slack-noti
+      settings:
+        username: Grafana-Slack
+        uploadImage: true
+        url: https://hooks.slack.com/services/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
+    delete_notifiers:
+    - name: default-slack
+      org_name: Main Org.
+      uid: slack-noti
 
 ## Configure grafana dashboard providers
 ## ref: http://docs.grafana.org/administration/provisioning/#dashboards
@@ -384,8 +387,16 @@ dashboards:
   default:
     openstack-dashboard:
       url: https://raw.githubusercontent.com/jacobbaek/hanu-iac/master/infra-k8s/5-helm-charts/grafana/dashboards/OpenStack%20Metric%20Dashboard-1599035748231.json
+      datasource: Prometheus
     logging-dashboard:
       url: https://raw.githubusercontent.com/jacobbaek/hanu-iac/master/infra-k8s/5-helm-charts/grafana/dashboards/Logging%20Dashboard-1599035798999.json
+      datasource: Elasticsearch
+    libvirt-dashboard:
+      url: https://raw.githubusercontent.com/jacobbaek/hanu-iac/master/infra-k8s/5-helm-charts/grafana/dashboards/Logging%20Dashboard-1599035798999.json
+#    kubernetes-dashboard:
+#      url: https://raw.githubusercontent.com/jacobbaek/hanu-iac/master/infra-k8s/5-helm-charts/grafana/dashboards/Logging%20Dashboard-1599035798999.json
+#    infra-kubernetes-dashboard:
+#      url: https://raw.githubusercontent.com/jacobbaek/hanu-iac/master/infra-k8s/5-helm-charts/grafana/dashboards/Logging%20Dashboard-1599035798999.json
     ceph-dashboard:
       gnetId: 7056 
       revision: 1
